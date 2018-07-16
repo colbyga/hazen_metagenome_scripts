@@ -28,6 +28,8 @@ KAIJUFILES=$HOME/rna_dna_2017/dna/raw_data/data_complete/kaijudb_prokaryotes
 #local
 BASEDIR=/Users/grahamcolby/Documents/anvio_refining
 OUTPUT=/Users/grahamcolby/Documents/anvio_refining
+
+
 #
 cd $OUTPUT
 
