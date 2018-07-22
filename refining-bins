@@ -47,6 +47,7 @@ anvi-export-functions [-h] -c CONTIGS_DB [-o FILE_PATH] [--annotation-sources SO
 anvi-export-functions -c $OUTPUT/contigs.db -o $OUTPUT/COG_annotations.tsv --annotation-sources 
 anvi-export-functions -c $OUTPUT/contigs.db --list-annotation-sources
 anvi-export-functions -c /global/scratch/hpc3565/output_anvio5_1/contigs_db_versions/contigs_refined.db --list-annotation-sources
+anvi-export-splits-taxonomy -c $OUTPUT/contigs.db -o $OUTPUT/splits-taxonomy-contigs-db.tsv
 
 
 # Do the follow every so often 
