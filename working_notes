@@ -1,0 +1,33 @@
+anvi-db-info $OUTPUT/contigs.db 
+
+DB Info (no touch)
+===============================================
+Database Path ................................: /global/scratch/hpc3565/output_anvio5_1/contigs.db
+Description ..................................: [Not found, but it's OK]
+Type .........................................: contigs
+Version ......................................: 12
+
+
+DB Info (no touch also)
+===============================================
+project_name .................................: hazen 2017 prokaryote DNA coassembled contigs db
+contigs_db_hash ..............................: hash6d6cedd4
+split_length .................................: 20000
+kmer_size ....................................: 4
+num_contigs ..................................: 1455655
+total_length .................................: 3414974759
+num_splits ...................................: 1462496
+genes_are_called .............................: 1
+splits_consider_gene_calls ...................: 1
+creation_date ................................: 1530846930.62259
+gene_level_taxonomy_source ...................: kaiju
+gene_function_sources ........................: COG_CATEGORY,COG_FUNCTION
+
+* Please remember that it is never a good idea to change these values. But in some
+cases it may be absolutely necessary to update something here, and a programmer
+may ask you to run this program and do it. But even then, you should be very
+skeptical. For instance, if the programmer asks you to change the values for
+'num_contigs', or 'kmer_size', it would mean that they likely hate you and want
+you to fail. So please be extremely careful changing any of these values.
+
+
