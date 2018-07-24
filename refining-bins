@@ -8,7 +8,7 @@
 
 
 # processing back on CAC
-source activate anvio5
+source activate anvio5.1.0
 
 # making environmental variables
 R1s=`ls /global/scratch/hpc3565/coassembly/*1P*`
@@ -39,15 +39,34 @@ anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-
 
 
 anvi-refine -p MERGED_PROFILE/PROFILE.db -c contigs.db -C CONCOCT -b Group_6
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs_refined.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
 
 # Ensuring back-up are appropriately stored
-anvi-display-contigs-stats --report-as-text  $OUTPUT/contig_stats_taxa.txt
-anvi-export-functions [-h] -c CONTIGS_DB [-o FILE_PATH] [--annotation-sources SOURCE NAME[S]] [-l]
+##### essential
+anvi-display-contigs-stats $OUTPUT/contigs.db --report-as-text -o $OUTPUT/contig_stats_anvio5_1.6.txt
+anvi-db-info $OUTPUT/contigs.db
+anvi-db-info $OUTPUT/HI.DNA_AS3/PROFILE.db
+anvi-db-info $OUTPUT/HI.DNA_AS3/AUXILIARY-DATA.db
+anvi-db-info $OUTPUT/SAMPLES-MERGED-rerun/PROFILE.db
+
+
+anvi-get-sequences-for-hmm-hits -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db -C CONCOCT -o $OUTPUT/sequences-for-hmm-hits.tsv
+anvi-get-sequences-for-hmm-hits -c $OUTPUT/contigs.db -o $OUTPUT/sequences-for-hmm-hits.tsv
+#####
 anvi-export-functions -c $OUTPUT/contigs.db -o $OUTPUT/COG_annotations.tsv --annotation-sources COG_FUNCTION,COG_CATEGORY
 anvi-export-functions -c $OUTPUT/contigs.db --list-annotation-sources
 anvi-export-functions -c /global/scratch/hpc3565/output_anvio5_1/contigs_db_versions/contigs_refined.db --list-annotation-sources
 anvi-export-splits-taxonomy -c $OUTPUT/contigs.db -o $OUTPUT/splits-taxonomy-contigs-db.tsv
+
+
+
+#### things to try 
+anvi-search-functions
+anvi-script-gen-CPR-classifier
+anvi-script-predict-CPR-genomes
+
+
+
 
 
 # Do the follow every so often 
