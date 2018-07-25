@@ -28,7 +28,7 @@ KAIJUFILES=$HOME/rna_dna_2017/dna/raw_data/data_complete/kaijudb_prokaryotes
 #local
 BASEDIR=/Users/grahamcolby/Documents/anvio_refining
 OUTPUT=/Users/grahamcolby/Documents/anvio_refining
-
+BACKUP=$OUTPUT/anvio_refining_backup
 
 # Refining steps 
 cd $OUTPUT
@@ -78,7 +78,12 @@ anvi-export-collection -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -C CONCOCT -O c
 anvi-export-splits-and-coverages -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -c $OUTPUT/contigs.db -O $OUTPUT/splits-and-coverages.txt
 anvi-export-contigs -c $OUTPUT/contigs.db --output-file $OUTPUT/contigs_backup
 anvi-export-state -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -o $OUTPUT/SAMPLES-MERGED-taxa-profile-db-state -s refining
-cp $OUTPUT/* $OUTPUT/backup/
+
+cp -r -i $OUTPUT/contigs.db $BACKUP/contigs.db
+cp -r -i $OUTPUT/SAMPLES-MERGED $BACKUP/SAMPLES-MERGED
+cp -r -i $OUTPUT/SAMPLES-SUMMARY $BACKUP/SAMPLES-SUMMARY
+cd /Users/grahamcolby/Documents/
+tar -cjvf anvio_refining.tar.bz2 /Users/grahamcolby/Documents/anvio_refining
 
 anvi-export-state -p $OUTPUT/sample_merge_summary_versions/SAMPLES-MERGED/PROFILE.db --list-states
 
