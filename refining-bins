@@ -33,9 +33,13 @@ OUTPUT=/Users/grahamcolby/Documents/anvio_refining
 # Refining steps 
 cd $OUTPUT
 
-anvi-show-collections-and-bins -p $OUTPUT/SAMPLES-MERGED/PROFILE.db
-anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db --list-collections  --output-file $OUTPUT/collections.txt
-anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -C CONCOCT
+anvi-show-collections-and-bins -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db
+anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db --list-collections  --output-file $OUTPUT/collections.txt
+anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db -C CONCOCT --output-file $OUTPUT/collections.txt
+anvi-summarize  --quick-summary
+anvi-summarize -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT 
+
+anvi-merge-bins
 
 
 anvi-refine -p MERGED_PROFILE/PROFILE.db -c contigs.db -C CONCOCT -b Group_6
