@@ -33,9 +33,9 @@ BACKUP=$OUTPUT/anvio_refining_backup
 # Refining steps 
 cd $OUTPUT
 
-anvi-show-collections-and-bins -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db
+anvi-show-collections-and-bins -p $OUTPUT/SAMPLES-MERGED/PROFILE.db
 anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db --list-collections  --output-file $OUTPUT/collections.txt
-anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db -C CONCOCT --output-file $OUTPUT/collections.txt
+anvi-script-get-collection-info -c $OUTPUT/contigs.db -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -C CONCOCT --output-file $OUTPUT/collections_update.txt
 anvi-summarize  --quick-summary
 anvi-summarize -p $OUTPUT/SAMPLES-MERGED-rerun2/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT 
 
@@ -79,11 +79,11 @@ anvi-export-splits-and-coverages -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -c $O
 anvi-export-contigs -c $OUTPUT/contigs.db --output-file $OUTPUT/contigs_backup
 anvi-export-state -p $OUTPUT/SAMPLES-MERGED-taxa/PROFILE.db -o $OUTPUT/SAMPLES-MERGED-taxa-profile-db-state -s refining
 
-cp -r -i $OUTPUT/contigs.db $BACKUP/contigs.db
-cp -r -i $OUTPUT/SAMPLES-MERGED $BACKUP/SAMPLES-MERGED
+cp -r $OUTPUT/contigs.db $BACKUP/contigs.db
+cp -r $OUTPUT/SAMPLES-MERGED $BACKUP/SAMPLES-MERGED
 cp -r -i $OUTPUT/SAMPLES-SUMMARY $BACKUP/SAMPLES-SUMMARY
 cd /Users/grahamcolby/Documents/
-tar -cjvf anvio_refining.tar.bz2 /Users/grahamcolby/Documents/anvio_refining
+sleep 40m ; tar -cjvf anvio_refining_2.tar.bz2 /Users/grahamcolby/Documents/anvio_refining
 
 anvi-export-state -p $OUTPUT/sample_merge_summary_versions/SAMPLES-MERGED/PROFILE.db --list-states
 
