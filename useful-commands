@@ -8,3 +8,11 @@ awk '$4 > 90  {print ;}' collections-refined.txt | wc -l  # insane quality bins
 
 #print specific field
 awk '{print $1}' filename
+
+
+
+# using grep 
+
+# grep in reverse -v is reverse -w is whole word -i case insensitive -E allows for regrex
+grep -vwiE "(superfamily|panther|pirsf)" temp-func-matrix.tsv > filename.tsv
+grep -vwE "(cat|rat)" sourcefile > destinationfile
