@@ -1,0 +1,10 @@
+# using awk
+
+# looking for rows with a second field value greater than 1000
+# {print ;} print entire line
+awk '$2 > 1000' filename
+awk '$4 > 49  {print ;}' collections-refined.txt
+awk '$4 > 90  {print ;}' collections-refined.txt | wc -l  # insane quality bins
+
+#print specific field
+awk '{print $1}' filename
