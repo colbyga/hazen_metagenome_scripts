@@ -16,3 +16,7 @@ awk '{print $1}' filename
 # grep in reverse -v is reverse -w is whole word -i case insensitive -E allows for regrex
 grep -vwiE "(superfamily|panther|pirsf)" temp-func-matrix.tsv > filename.tsv
 grep -vwE "(cat|rat)" sourcefile > destinationfile
+
+
+#bash loop
+for filename in $(ls *.hmm); do  echo $pwd$filename >> hmm-list.txt; done;
