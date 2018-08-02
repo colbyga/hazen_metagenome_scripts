@@ -1,5 +1,6 @@
+#######
 # using awk
-
+#######
 # looking for rows with a second field value greater than 1000
 # {print ;} print entire line
 awk '$2 > 1000' filename
@@ -7,12 +8,21 @@ awk '$4 > 49  {print ;}' collections-refined.txt
 awk '$4 > 90  {print ;}' collections-refined.txt | wc -l  # insane quality bins
 
 #print specific field
-awk '{print $1}' filename
+awk '{print $1}' collections-refined-over-49.txt > bins-over-49.txt
 
+######
+# using sed 
+######
+sed -i -e 's/few/asd/g' hello.txt
+sed 's/hello/bonjour/' greetings.txt
+#using ; as a separator
+sed 's;Bin_;$BINS/Bin_;' bins-over-49.txt > bins-over-49.txt
 
+tr '\n' ' ' < bins-over-49.txt > bins-over-49-space.txt
 
+######
 # using grep 
-
+######
 # grep in reverse -v is reverse -w is whole word -i case insensitive -E allows for regrex
 grep -vwiE "(superfamily|panther|pirsf)" temp-func-matrix.tsv > filename.tsv
 grep -vwE "(cat|rat)" sourcefile > destinationfile
@@ -20,3 +30,5 @@ grep -vwE "(cat|rat)" sourcefile > destinationfile
 
 #bash loop
 for filename in $(ls *.hmm); do  echo $pwd$filename >> hmm-list.txt; done;
+
+
