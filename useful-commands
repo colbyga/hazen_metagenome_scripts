@@ -6,6 +6,20 @@
 awk '$2 > 1000' filename
 awk '$4 > 49  {print ;}' collections-refined.txt
 awk '$4 > 90  {print ;}' collections-refined.txt | wc -l  # insane quality bins
+awk '$4 > 49 &&  $5 > 10 {print ;}' collections-refined.txt | wc -l  # Good bins but contaminated
+awk '$5 > 10 {print ;}' collections-refined.txt | wc -l  
+
+
+awk '{print $13}' qa.out
+awk '$13 > 90  {print ;}' qa.out | wc -l  # insane quality bins
+awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
+awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $1}' # oh look all the contaminated bin names that need work 
+awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $13 "\t" $14}' 
+
+awk '$13 > 90 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
+awk '$13 > 70 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
+
+
 
 #print specific field
 awk '{print $1}' collections-refined-over-49.txt > bins-over-49.txt
