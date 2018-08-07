@@ -46,3 +46,22 @@ grep -vwE "(cat|rat)" sourcefile > destinationfile
 for filename in $(ls *.hmm); do  echo $pwd$filename >> hmm-list.txt; done;
 
 
+
+
+##################
+#Compressing files
+##################
+tar -czvf archive.tar.gz stuff
+tar -cjvf archive.tar.bz2 stuff
+
+#working with compressed files 
+#extracting a specific file from a tar compressed file 
+tar -zxvf <tar filename> <file you want to extract> ### if its tar.gz
+tar -jxvf output_anvio5_1.tar.bz2 --strip-components=4 global/scratch/hpc3565/output_anvio5_1/contigs.db -C /Users/grahamcolby/Documents/anvio_refining-post-checkm
+tar -jxvf output_anvio5_1.tar.bz2 --strip-components=4 global/scratch/hpc3565/output_anvio5_1/SAMPLES-MERGED -C /Users/grahamcolby/Documents/anvio_refining-post-checkm
+tar -jxvf output_anvio5_1.tar.bz2 --strip-components=4 global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct
+
+
+list files
+tar -jtvf archive.tar.bz2
+tar --bzip2 --list --verbose --file=archive.tar
