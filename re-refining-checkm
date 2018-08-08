@@ -1,0 +1,29 @@
+#local
+BASEDIR=/Users/grahamcolby/Documents/anvio_refining
+OUTPUT=/Users/grahamcolby/Documents/anvio_refining
+BACKUP=$OUTPUT/anvio_refining_backup
+
+# Refining steps 
+cd $OUTPUT
+
+
+
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_1_8
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_10_1
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_18_1
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_18_2
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_2_16
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_2_20
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_2_3
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_2_5
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_21_3
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_27_1
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
