@@ -9,6 +9,7 @@ cd $OUTPUT
 
 
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_1_8
+
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_10_1
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_18_1
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_18_2
@@ -18,12 +19,22 @@ anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOC
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_2_5
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_21_3
 anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_27_1
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
-anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_56
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_38_5
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_4_20
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_44_1
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_5_2
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_5_7
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_5_9
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_53_3
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_53_6
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_7_11
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_7_13
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_7_3
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_7_6
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_71_2
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_74_1
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_8_12
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_8_21
+anvi-refine -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -C CONCOCT -b Bin_8_7
+
+
