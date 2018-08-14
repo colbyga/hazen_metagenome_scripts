@@ -65,3 +65,16 @@ tar -jxvf output_anvio5_1.tar.bz2 --strip-components=4 global/scratch/hpc3565/ou
 list files
 tar -jtvf archive.tar.bz2
 tar --bzip2 --list --verbose --file=archive.tar
+
+############
+# looking at raw data files
+############
+# number of reads in fastq.gc file 
+zcat my.fastq.gz | echo $((`wc -l`/4))
+#or 
+cat my.sam | grep -v '^ *@' | wc -l
+
+
+#count lines in fasta file 
+grep -c "^>" file.fa
+
