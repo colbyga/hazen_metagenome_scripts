@@ -15,7 +15,7 @@ awk '$13 > 90  {print ;}' qa.out | wc -l  # insane quality bins
 awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
 awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $1}' # oh look all the contaminated bin names that need work 
 awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $13 "\t" $14}' 
-
+awk '$13 > 49 &&  $14 < 10 {print ;}' qa.out > qa_goodbins.out
 awk '$13 > 90 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
 awk '$13 > 70 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
 
@@ -33,6 +33,23 @@ sed 's/hello/bonjour/' greetings.txt
 sed 's;Bin_;$BINS/Bin_;' bins-over-49.txt > bins-over-49.txt
 
 tr '\n' ' ' < bins-over-49.txt > bins-over-49-space.txt
+
+
+############
+#  bringing it together
+############
+awk '$13 > 49 &&  $14 < 10 {print ;}' qa.out | awk '{print $1}' | sed 's/-contigs/-contigs.fa/g'
+awk '$13 > 49 &&  $14 < 10 {print ;}' qa.out | awk '{print $1}' | sed 's/-contigs//g' > goodbins.names
+
+while read p; do
+  echo "$p"
+done <goodbins.names
+
+while read p; do
+  cp -s /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/$p/$p-contigs.fa /global/scratch/hpc3565//output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/good_bins
+done < goodbins.names
+
+cp -s
 
 ######
 # using grep 
