@@ -63,8 +63,16 @@ grep -vwE "(cat|rat)" sourcefile > destinationfile
 for filename in $(ls *.hmm); do  echo $pwd$filename >> hmm-list.txt; done;
 
 
-
-
+rerunning RGI that didn't run
+seq 2 878 > all-errs.txt
+cat all-errs.txt | while read f; do echo rgi_1832827_$f.err; done > all-list-of-err.txt
+# finding the difference between two files
+grep -v -f list-of-err.txt all-list-of-err.txt
+#786 files and should be 878
+sed 's/rgi_1832827_//' ah-whats-missing.txt > ah-whats-missing2.txt
+sed 's/.err//' ah-whats-missing2.txt > ah-whats-missing3.txt
+tr '\n' ',' < ah-whats-missing3.txt
+ls rgi_1834603* | wc -l #should be 92!
 ##################
 #Compressing files
 ##################
