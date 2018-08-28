@@ -90,7 +90,7 @@ grep -vFwf list-slurm-errs.txt all-list-of-err.txt > matches.txt
 repeating the second time!
 ls *err > all-slurm-errs.txt
 sed 's/minpath_1838520_//' all-slurm-errs.txt > all-slurm-errs2.txt
-seq 2 543 > all-errs.txt
+seq 2 878> all-errs.txt
 cat all-errs.txt | while read f; do echo minpath_$f.err; done > all-list-of-err.txt
 
 grep -v -fxF list-slurm-errs-3.txt all-list-of-err.txt
@@ -111,6 +111,15 @@ awk '{if(NR==1) print $0}' abundance.txt | cat - processed_abundance.txt > temp 
 
 grep -Fwf goodbins.names mean_coverage.txt > processed_mean_coverage.txt
 awk '{if(NR==1) print $0}' mean_coverage.txt | cat - processed_mean_coverage.txt > temp && mv temp processed_mean_coverage.txt
+
+###########
+# extracting only goodbins from the checkm profile3.tsv in output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/processed-bins_across_samples 
+###########
+sed -i '/-contigs/ s///g' profile3.tsv
+grep -Fwf goodbins.names profile3.tsv > processed_profile.tsv   ### output 308 lines
+grep -Fwf goodbins.names mean_coverage.txt > processed_mean_coverage.txt   ### output 308 lines
+
+
 
 ##################
 #Compressing files
