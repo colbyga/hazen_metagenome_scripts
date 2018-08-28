@@ -90,14 +90,15 @@ grep -vFwf list-slurm-errs.txt all-list-of-err.txt > matches.txt
 repeating the second time!
 ls *err > all-slurm-errs.txt
 sed 's/minpath_1838520_//' all-slurm-errs.txt > all-slurm-errs2.txt
-seq 2 878 > all-errs.txt
+seq 2 543 > all-errs.txt
 cat all-errs.txt | while read f; do echo minpath_$f.err; done > all-list-of-err.txt
 
 grep -v -fxF list-slurm-errs-3.txt all-list-of-err.txt
 # below is the golden pattern match
-grep -vFwf all-slurm-errs2.txt all-list-of-err.txt > matches.txt
+grep -vFwf all-slurm-errs.txt all-list-of-err.txt > matches.txt
 sed 's/.err//g' matches.txt > a-rerun.txt
-tr '\n' ',' < a-rerun.txt
+sed 's/minpath_//g' a-rerun.txt > b-rerun.txt
+tr '\n' ',' < b-rerun.txt
 
 ###########
 # extracting only goodbins from the anvio bins_summary.txt
@@ -105,8 +106,11 @@ tr '\n' ',' < a-rerun.txt
 grep -vFwf goodbins.names bins_summary.txt  ### output 570 lines 
 grep -Fwf goodbins.names bins_summary.txt   ### output 308 lines
 # goodbin abundance
+grep -Fwf goodbins.names abundance.txt > processed_abundance.txt
+awk '{if(NR==1) print $0}' abundance.txt | cat - processed_abundance.txt > temp && mv temp processed_abundance.txt
 
-
+grep -Fwf goodbins.names mean_coverage.txt > processed_mean_coverage.txt
+awk '{if(NR==1) print $0}' mean_coverage.txt | cat - processed_mean_coverage.txt > temp && mv temp processed_mean_coverage.txt
 
 ##################
 #Compressing files
