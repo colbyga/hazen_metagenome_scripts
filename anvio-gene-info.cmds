@@ -1,1 +1,9 @@
-anvi-get-sequences-for-gene-calls -c CONTIGS_DB
+BASEDIR=/global/scratch/hpc3565
+#these contigs have only prokaryotic reads filtered by EukRep
+OUTPUT=$BASEDIR/output_anvio5_1
+#DNA=$HOME/rna_dna_2017/dna/raw_data/data_complete/output_anvio
+#CONTIGS=$DNA/contigs.fa
+
+
+# generating gene-calls fasta with expanded info in nucleotide format!
+anvi-get-sequences-for-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls-extended.fa --report-extended-deflines 
