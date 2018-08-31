@@ -12,3 +12,9 @@ anvi-get-sequences-for-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls-ex
 
 # generating gene-calls fasta with expanded info in amino-acid format!
 anvi-get-sequences-for-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls-extended-proteins.fa --report-extended-deflines --get-aa-sequences
+
+# exporting entire collection concoct including unbinned then without unbinned
+anvi-export-collection
+
+# exporting gene calls 
+anvi-export-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls.txt
