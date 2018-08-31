@@ -5,5 +5,10 @@ OUTPUT=$BASEDIR/output_anvio5_1
 #CONTIGS=$DNA/contigs.fa
 
 
+source activate anvio5.1.0
+
 # generating gene-calls fasta with expanded info in nucleotide format!
 anvi-get-sequences-for-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls-extended.fa --report-extended-deflines 
+
+# generating gene-calls fasta with expanded info in amino-acid format!
+anvi-get-sequences-for-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls-extended-proteins.fa --report-extended-deflines --get-aa-sequences
