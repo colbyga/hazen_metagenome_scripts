@@ -18,3 +18,10 @@ anvi-export-collection
 
 # exporting gene calls 
 anvi-export-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls.txt
+
+
+# exporting coverage and detection
+anvi-export-gene-coverage-and-detection -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -O $OUTPUT/SAMPLES-SUMMARY-concoct-checkm/gene-coverages
+
+
+
