@@ -34,6 +34,41 @@ sed 's;Bin_;$BINS/Bin_;' bins-over-49.txt > bins-over-49.txt
 
 tr '\n' ' ' < bins-over-49.txt > bins-over-49-space.txt
 
+############
+# renaming files using a mapping file 
+############
+awk '$1 &&  $2 {print ;}' mapping-text.csv > execute.map
+awk '{print $2}' | sed 's/.json/-contigs.fa/g'
+
+sed 's/^//g' files.csv | while IFS=, read orig new; do mv "$orig" "$new"; done 
+
+
+
+sed -i -e 's/^/mv /' map2.txt
+awk -F',' 'system("mv " $1 " " $2)' execute.map
+
+awk '{print "mv "$0}' execute.map
+sed 's/^/mv /' execute.map > execute.map.txt
+
+while read p; do
+  echo mv "$p" >> execute.map.final
+done <execute.map;
+
+
+
+for line in execute.map; do echo mv $line >> execute.map.final; done;
+
+for line; do
+  echo mv "$line"
+done < execute.map
+
+sed -e 's/^/prefix/' file
+
+# If you want to edit the file in-place
+sed -i -e 's/^/mv /' execute.map
+
+# If you want to create a new file
+sed -e 's/^/prefix/' file > file.new
 
 ############
 #  bringing it together
