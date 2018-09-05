@@ -23,5 +23,27 @@ anvi-export-gene-calls -c $OUTPUT/contigs.db -o $OUTPUT/gene-calls.txt
 # exporting coverage and detection
 anvi-export-gene-coverage-and-detection -p $OUTPUT/SAMPLES-MERGED/PROFILE.db -c $OUTPUT/contigs.db -O $OUTPUT/SAMPLES-SUMMARY-concoct-checkm/gene-coverages
 
+# getting hmm hits 
+anvi-get-sequences-for-hmm-hits -c $OUTPUT/contigs.db \
+                                   -p $OUTPUT/SAMPLES-MERGED/PROFILE.db \
+                                   -o seqs-for-phylogenomics.fa \
+                                   --hmm-source Campbell_et_al \
+                                   --list-available-gene-names
+ 
 
 
+anvi-get-sequences-for-hmm-hits -c $OUTPUT/contigs.db \
+                                   -p $OUTPUT/SAMPLES-MERGED/PROFILE.db \
+                                   -o $PHYLO/seqs-for-phylogenomics.fa \
+                                   --hmm-source Campbell_et_al \
+                                   -C default \
+                                   --gene-names Ribosomal_L1,Ribosomal_L14,Ribosomal_L16,Ribosomal_L18e,Ribosomal_L18p,Ribosomal_L2,Ribosomal_L22,Ribosomal_L2_C,Ribosomal_L3,Ribosomal_L4,Ribosomal_L5,Ribosomal_L5_C,Ribosomal_L6,Ribosomal_L9_C,Ribosomal_L9_N,Ribosomal_S10,Ribosomal_S11,Ribosomal_S13,Ribosomal_S15,Ribosomal_S16,Ribosomal_S17,Ribosomal_S18,Ribosomal_S19,Ribosomal_S2,Ribosomal_S20p,Ribosomal_S3_C,Ribosomal_S4,Ribosomal_S5,Ribosomal_S5_C,Ribosomal_S6,Ribosomal_S7,Ribosomal_S8,Ribosomal_S9
+                                   
+                                   
+##### phylogenomics work 
+cd 
+for i in *fa
+do
+	anvi-script-FASTA-to-contigs-db $i
+done
+                                   
