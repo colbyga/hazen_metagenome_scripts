@@ -70,6 +70,33 @@ sed -i -e 's/^/mv /' execute.map
 # If you want to create a new file
 sed -e 's/^/prefix/' file > file.new
 
+
+############
+#  copying files over via list 
+############
+
+for direct in $(ls *S*); do echo $direct; done;
+
+for direct in $(ls *S*); 
+  do while read p; 
+    do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/$direct;
+  done < /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/bins-list/"$direct"-bins;
+done;
+
+while read p; 
+do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/AS;
+done < AS-bins
+
+while read p; 
+do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/BS;
+done < BS-bins
+
+
+
+sed -e 's/^/cp -s /' AS-bins > AS-copy
+
+
+
 ############
 #  bringing it together
 ############
