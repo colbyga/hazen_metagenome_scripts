@@ -74,14 +74,14 @@ sed -e 's/^/prefix/' file > file.new
 ############
 #  copying files over via list 
 ############
-
-for direct in $(ls *S*); do echo $direct; done;
-
 for direct in $(ls *S*); 
   do while read p; 
     do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/$direct;
   done < /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/bins-list/"$direct"-bins;
 done;
+
+# couldn't sort the above for loop out so ran individually as follows
+# Explaination: will reading each line in eg. AS-bins, where each line is the prefix of a BIN, eg. Bin_1_11, copy ../jsons_files/Bin_1_11-rgi.out.json to new directory AS
 
 while read p; 
 do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/AS;
@@ -90,11 +90,6 @@ done < AS-bins
 while read p; 
 do cp /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/jsons_files/$p-rgi.out.json /global/scratch/hpc3565/output_anvio5_1/SAMPLES-SUMMARY-concoct-checkm/bin_by_bin/rgi-all-json/by_samples/BS;
 done < BS-bins
-
-
-
-sed -e 's/^/cp -s /' AS-bins > AS-copy
-
 
 
 ############
