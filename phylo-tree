@@ -1,0 +1,230 @@
+library(ape)
+library(phytools)
+library(adephylo)
+library(seqinr)
+library(plyr)
+
+# read aln files
+system("rm *.aln concat*")
+fas_lst <- list.files(pattern = ".fa")
+aln <- list()
+all_seqnames <- NULL
+for(i in 1:length(fas_lst)){
+	aln[[i]] <- read.dna(fas_lst[[i]], format="fasta")
+
+	# clean seq names
+	attributes(aln[[i]])$dimnames[[1]] <- substr(attributes(aln[[i]])$dimnames[[1]], 9, nchar(attributes(aln[[i]])$dimnames[[1]]))
+	all_seqnames <- c(all_seqnames, attributes(aln[[i]])$dimnames[[1]])
+
+}
+
+all_seqnames <- unique(all_seqnames)
+
+# check for dup seq names -- and rm shorter sequence from alignment
+#for(i in 1:2){
+for(i in 1:length(fas_lst)){
+	print(paste0("Now doing aln ", i, " -- ", fas_lst[i]))
+	cur_aln <- aln[[i]]
+	
+	# DB seq
+	bin_seq_pos <- which(grepl("Bin_", attributes(cur_aln)$dimnames[[1]]))
+	db_seq_pos <- which(grepl("GCA_", attributes(cur_aln)$dimnames[[1]]))
+
+	# find dups
+	cur_seq_names <- attributes(cur_aln)$dimnames[[1]]
+	dup_pos <- which(duplicated(cur_seq_names))
+	print(paste0("- found ", length(dup_pos), " dup pairs"))
+	
+	# ID shorter seq
+	seq_dups_2_rm <- NULL
+	for(j in 1:length(dup_pos)){
+		print(paste0("- removing pair ", j))
+		cur_pos <- dup_pos[j]
+		cur_dup_pos <- which(cur_seq_names == cur_seq_names[cur_pos])
+		
+		if(length(cur_dup_pos) > 2){
+			print("!!!!!")
+		}
+
+		#seq1 <- cur_aln[dup_pos[1],]
+		#n_indels_seq1 <- which(as.character(seq1) == "-")
+		#seq2 <- cur_aln[dup_pos[2],]
+		#n_indels_seq2 <- which(as.character(seq2) == "-")
+		#paste(as.character(seq1), collapse="")
+		
+		# tmp aln with only DB seqs and the 2 dups
+		#tmp_aln <- cur_aln[c(db_seq_pos, cur_dup_pos), ] ## too slow...
+		subset_aln <- 500
+		tmp_aln <- cur_aln[c(sample(db_seq_pos, subset_aln, replace=F), cur_dup_pos), ]
+		attributes(tmp_aln)$dimnames[[1]][subset_aln+1] <- paste0(attributes(tmp_aln)$dimnames[[1]][subset_aln+1], "dup1")
+		attributes(tmp_aln)$dimnames[[1]][subset_aln+2] <- paste0(attributes(tmp_aln)$dimnames[[1]][subset_aln+2], "dup2")
+		tmp_dist <- dist.dna(tmp_aln, model="JC69")
+		# fix NA distances
+		tmp_dist[which(is.na(tmp_dist))] <- 1e-6
+		tmp_dist[which(tmp_dist < 1e-6)] <- 1e-6
+		tmp_dist[which(tmp_dist > 999)] <- 999
+		#tmp_tr <- bionj(tmp_dist)
+		tmp_tr <- nj(tmp_dist)
+		tmp_tr_MP_rooted <- midpoint.root(tmp_tr)
+		# fix <0 brlen
+		tmp_tr_MP_rooted$edge.length[tmp_tr_MP_rooted$edge.length < 0] <- 0.0
+		dist_pair <- distRoot(tmp_tr_MP_rooted, tips = c(subset_aln+1, subset_aln+2))
+		max_dist_pair <- which.max(dist_pair)
+		seq_dups_2_rm <- c(seq_dups_2_rm, cur_dup_pos[max_dist_pair])
+	}
+	# update aln[[i]]
+	aln[[i]] <- cur_aln[-seq_dups_2_rm, ]
+
+	# ID missing sequences in each alignment
+	miss_seq <- setdiff(all_seqnames, attributes(aln[[i]])$dimnames[[1]])
+	
+	# fill in missing sequences
+	write.dna(aln[[i]], paste0(fas_lst[i], ".aln"), format = "fasta")
+	for(j in 1:length(miss_seq)){
+		cat(paste0("
+		>", miss_seq[j], "
+		", paste(rep("-", dim(aln[[i]])[2]), collapse="")) , file = paste0(fas_lst[i], ".aln"), sep = "", append = T)
+	}
+}
+
+clean_aln <- list()
+for(i in 1:length(fas_lst)){
+	clean_aln[[i]] <- read.dna(paste0(fas_lst[i], ".aln"), format="fasta")
+}
+
+
+# aln_lst <- list.files(pattern = ".aln")
+# for(i in 1:length(aln_lst)){
+#   i <- read.dna(aln_lst[[i]], format="fasta")
+# }  
+
+cat_aln <- do.call(cbind, clean_aln)
+write.dna(cat_aln, "concat_unedited.aln")
+#Manually removed long branches, there were three of them
+
+##############
+# Trimming Alignment Files
+##############
+outfile <- read.alignment("concat_edited.aln.fasta", format = "fasta")
+sequences_names <- as.list(outfile[[2]])
+
+#remove NCBI genomes with more than 15% gaps over the whole alignment, and metagenomic bins with more than 50% gaps
+# including N's in gaps 
+# sequences from NCBI need to have less than 991 gaps or N's to be in alginment 
+# alignment_length <- nchar(outfile[[3]][2])
+# attributes(outfile)
+# 
+# too_short_seq_ncbi <- which(nchar(as.character(outfile[[3]])) -nchar( gsub("-", "", outfile[[3]], fixed=T)) > alignment_length*0.15)
+# too_short_seq_ncbi <- too_short_seq_ncbi[too_short_seq_ncbi > max(grep("Bin", outfile[[2]])) + 1]
+# too_short_seq_bins <- which(nchar(as.character(outfile[[3]])) -nchar( gsub("-", "", outfile[[3]], fixed=T)) > alignment_length*0.5)
+# too_short_seq_bins <- too_short_seq_bins[too_short_seq_bins <= max(grep("Bin", outfile[[2]])) + 1]
+# too_short_seq <- c(too_short_seq_bins, too_short_seq_ncbi)
+# #outfile_2 <- outfile[-sort(c(too_short_seq - 1, too_short_seq))]
+# 
+# #remove sequences using too_short_seq list via 'seqinr'
+# sequences_names[too_short_seq]
+# 
+# 
+# outfile_edit <- outfile[too_short_seq %nin% subsetlist$id]
+# 
+# 
+# write.table(outfile, file="concatenated_RP_edit2.fasta", quote=F, row.names=F, col.names=F)
+
+
+#nchar(outfile[[3]][100])
+#nchar( gsub("-", "", outfile, fixed=T, invert = TRUE ))
+
+#make trees with FastTree: 
+#FastTree -gtr -nt concat_edited.aln.fasta > concatenated_RP.tre
+
+#read in the tree and genomes files
+system("wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt")
+#awk -F '\t' '{if($12=="Complete Genome") print $1, $6}' assembly_summary.txt | awk '!seen[$1]++ {print $0}' | sed -E 's/\.[0-9]//g' > genomes_taxonomy.txt
+
+concatenated_tree <- read.tree(file="/Users/grahamcolby/Downloads/muscle-fast/gappy-final/concatenated_RP.tre")
+ncbi_taxonomy <- read.delim("/Users/grahamcolby/Downloads/muscle-fast/gappy-final/genomes_taxonomy.txt", header = FALSE, sep = " ")
+colnames(ncbi_taxonomy) <- c("genome", "ncbi_id")
+ncbi_taxonomy <- ncbi_taxonomy[which(ncbi_taxonomy$genome %in% concatenated_tree$tip.label),]
+
+#extract taxonomy for the NCBI genomes and save the file (so it can later be read in)
+#install.packages(c("taxize", "rentrez"))
+library(taxize) 
+library(rentrez)
+getkey(x = "fc924c3a739df75fbca910f639290e0cff08", service="entrez")
+set_entrez_key("fc924c3a739df75fbca910f639290e0cff08")
+Sys.getenv("ENTREZ_KEY")
+
+taxize_classification <- classification(ncbi_taxonomy$ncbi_id, db="ncbi")
+taxize_classification <- do.call(rbind, taxize_classification)
+taxize_classification$genome <- gsub(".[0-9]+$", "", rownames(taxize_classification))
+taxize_classification <- taxize_classification[-3]
+taxize_classification <- taxize_classification[-which(taxize_classification$name %in% "cellular organisms"),]
+taxize_classification <- reshape(taxize_classification, timevar = "rank", idvar = "genome", direction = "wide")[1:8]
+taxize_classification <- taxize_classification[-1]
+colnames(taxize_classification) <- c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+rownames(taxize_classification) <- ncbi_taxonomy$genome
+write.table(taxize_classification, file="/Users/grahamcolby/Downloads/muscle-fast/gappy/NCBI_genomes_tax_table.txt", quote=F, sep="\t")
+
+#construct a tax table and otu table for the tree of both ncbi and metagenome genomes
+ncbi_genomes_taxonomy <- read.csv("/Users/grahamcolby/Downloads/muscle-fast/gappy/NCBI_genomes_tax_table.txt", quote="", sep="\t")
+ncbi_genomes_taxonomy$label <- rownames(ncbi_genomes_taxonomy)
+bin_tip_names <- concatenated_tree$tip.label[which(grepl("Bin", concatenated_tree$tip.label))]
+#plot(unroot(concatenated_tree),type="unrooted",no.margin=TRUE,lab4ut="axial", edge.width=2)
+ncbi_genomes_taxonomy <- rbind.fill(ncbi_genomes_taxonomy, data.frame(label=bin_tip_names))
+ncbi_genomes_taxonomy$source <- ifelse(grepl("GCA", ncbi_genomes_taxonomy$label),"NCBI","metagenome") 
+length(grep("Bin", ncbi_genomes_taxonomy$label))
+
+#plot a tree with ggtree
+#source("https://bioconductor.org/biocLite.R")
+#biocLite("ggtree")
+library(ggplot2)
+library(ggtree)
+library(dplyr)
+library(phyloseq)
+library(tidytree)
+
+new_ggtree <- dplyr::as_data_frame(phy_tree(concatenated_tree))
+all_taxonomy <- ncbi_genomes_taxonomy
+all_taxonomy$fulltax <- apply(all_taxonomy[,2:7], 1, paste, collapse = "_")
+all_taxonomy[all_taxonomy$source == "metagenome",]$fulltax <-  all_taxonomy[all_taxonomy$source == "metagenome",]$label
+all_taxonomy$fulltax <- gsub("NA_", "", all_taxonomy$fulltax)
+new_ggtree <- full_join(new_ggtree, all_taxonomy, by="label")
+
+#change the phylum level to class level for Proteobacteria
+levels(new_ggtree$Phylum) <- c(levels(new_ggtree$Phylum), levels(new_ggtree$Class[new_ggtree$Phylum %in% "Proteobacteria"]))
+new_ggtree$Phylum[new_ggtree$Phylum %in% "Proteobacteria"] <- new_ggtree$Class[new_ggtree$Phylum %in% "Proteobacteria"]
+
+new_ggtree2 <- as.treedata(new_ggtree)
+
+image <- ggtree(new_ggtree2, ladderize = T) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + geom_tiplab(aes(label=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + scale_alpha_manual(values=c("1", "0")) 
+image2 <- ggtree(new_ggtree2, ladderize = F, layout="fan", open.angle=40) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + geom_tiplab(aes(label=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + scale_alpha_manual(values=c("1", "0"))
+image3 <- ggtree(new_ggtree2, layout="daylight") + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + geom_tiplab(aes(label=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + scale_alpha_manual(values=c("1", "0"))
+
+ggsave(file = "/Users/grahamcolby/Downloads/muscle-fast/gappy-final/tree_color-simple.pdf", plot=image, units="mm", width=2000, height=4000, limitsize = F)
+
+image <- ggtree(new_ggtree2, ladderize = T) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
+  geom_tiplab(aes(label=new_ggtree$Phylum, col=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + 
+  scale_alpha_manual(values=c("1", "0")) + geom_treescale()
+  
+#new_ggtree3 <- groupOTU(new_ggtree2, .node=new_ggtree$Phylum)
+image <- ggtree(new_ggtree2, ladderize = T, aes(color=new_ggtree$Phylum)) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
+  geom_tiplab(aes(label=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + 
+  scale_alpha_manual(values=c("1", "0")) + geom_treescale()
+
+image <- ggtree(new_ggtree2, layout="fan", open.angle=40, ladderize = T, aes(color=new_ggtree$Phylum)) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
+  geom_tiplab(aes(label=new_ggtree$Phylum)) + #geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + 
+  scale_alpha_manual(values=c("1", "0")) + geom_treescale() + theme(legend.position="right")
+
+image <- ggtree(new_ggtree2, layout="fan", open.angle=40, ladderize = T, aes(color=new_ggtree$Phylum)) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
+  geom_tiplab(aes(label=new_ggtree$Phylum)) + geom_tippoint(aes(alpha=new_ggtree$source), color="red", shape=20, size=5) + 
+  scale_alpha_manual(values=c("1", "0")) + geom_treescale() + theme(legend.position="right")
+
+image <- collapse(image, node = 4110)
+image <- image + geom_point2(aes(subset=(node == 4110)), size=5, shape=17, fill="steelblue")
+
+
+#groupInfo <- split(new_ggtree2$tip.label, gsub("Candidatus \*", "", chiroptera$tip.label))
+groupInfo <- split(new_ggtree$Phylum, gsub("_\\w+", "", new_ggtree$Phylum))
+OTU <- groupOTU(new_ggtree, .node = groupInfo)
+p <- ggtree(chiroptera, aes(color=group)) + geom_tiplab() + xlim(NA, 23)
+gzoom(p, grep("Plecotus", chiroptera$tip.label), xmax_adjust=2)
