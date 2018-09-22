@@ -34,6 +34,16 @@ sed 's;Bin_;$BINS/Bin_;' bins-over-49.txt > bins-over-49.txt
 
 tr '\n' ' ' < bins-over-49.txt > bins-over-49-space.txt
 
+
+
+sed 's$/global/home/hpc3229/ncbi/GbBac/$$' genomic_files.list > genomes.taxonomy_1.txt
+sed 's$.*/$$' genomes.taxonomy_1.txt > genomes.taxonomy_2.txt
+sed 's$_genomic.fna$$' genomes.taxonomy_2.txt > genomes.taxonomy_3.txt
+sed 's$.2_$.2 $' genomes.taxonomy_3.txt > genomes.taxonomy_4.txt
+sed 's$.1_$.1 $' genomes.taxonomy_4.txt > genomes.taxonomy.txt
+ sed 's/\.[12]//g' genomes.taxonomy.txt > genomes.taxonomy2.txt 
+
+
 ############
 # renaming files using a mapping file 
 ############
