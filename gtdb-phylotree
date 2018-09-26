@@ -120,3 +120,90 @@ done;
 
 # Filter the alignment files for duplicates and make tree, r script make take quite a long time
 
+
+
+
+
+
+
+
+# what I've done above is aligned the bins together trimal to remove gaps then aligned to the gtdb ..... this is probably not the best way I should just direct add the translated sequences and then align .... this is what follows
+# 4) Combining the bin sequences with the gtdb alignments for each of the 120 genes
+#trimal output is multiline. make multi-line fasta a single line ? ----- not needed by muscle!
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do cat $GTDB_ALIGN/gtdb_${annotation}.faa $ANALYSIS/concatenated_proteins/${annotation}.fa.unaligned.clean > $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa;
+done;
+wait
+		# muscle alignment fast parameters for aa
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+wait
+
+
+BASEDIR=/home/gcolb087/scratch
+OUTPUT=$BASEDIR/gtdb-data
+PROTEINS=$OUTPUT/bac120
+ANALYSIS=$OUTPUT/analysis
+BINS=$BASEDIR/output_anvio5_1_Sept6/SAMPLES-SUMMARY-concoct-checkm
+NCBI=$BASEDIR/ncbi_genomes
+TRANS=/home/gcolb087/bin
+GTDB_ALIGN=$PROTEINS/bac120_msa_genes_r86
+
+module load muscle/3.8.31
+module load mafft/7.310
+module load trimal/1.4
+
+cd $ANALYSIS/combined_aln_seq
+
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_1.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
+do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+
+
+
+
+
+
+
+
+
+
+
+
+		# trimal to remove gaps and incomplete sequences
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_combined.aln.fa -gappyout -seqoverlap 50 -resoverlap 0.25; 
+done;
+wait
+
