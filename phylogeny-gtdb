@@ -1,0 +1,110 @@
+#!/bin/bash
+#SBATCH -c 12                               # Number of CPUS requested. If omitted, the default is 1 CPU.
+#SBATCH --mem=50gb                         # mem in gb
+#SBATCH -t 14-0:0:0                         # How long will your job run for? If omitted, the default is 3 hours.
+#SBATCH -J ribosomal_p                      	# Name of job
+#SBATCH -e /home/gcolb087/scratch/gtdb-extract-seqs.err
+#SBATCH -o /home/gcolb087/scratch/gtdb-extract-seqs.out
+
+BASEDIR=/home/gcolb087/scratch
+OUTPUT=$BASEDIR/gtdb-data
+PROTEINS=$OUTPUT/bac120
+ANALYSIS=$OUTPUT/analysis
+BINS=$BASEDIR/output_anvio5_1_Sept6/SAMPLES-SUMMARY-concoct-checkm
+NCBI=$BASEDIR/ncbi_genomes
+TRANS=/home/gcolb087/bin
+GTDB_ALIGN=$PROTEINS/bac120_msa_genes_r86
+
+module load muscle/3.8.31
+module load mafft/7.310
+module load trimal/1.4
+
+# 1) fetch the ribosomal proteins for the bins
+mkdir $ANALYSIS/ribosomal_proteins/
+cd  $ANALYSIS/ribosomal_proteins/
+
+for bin in $(awk '{print $0}' $BINS/goodbins.names)
+do for annotation in `awk '{print $1}' $PROTEINS/bac120-list.tsv`
+do grep $annotation $BINS/bin_by_bin/${bin}/${bin}-gene_calls.txt | awk -v OFS="" -v x=${annotation} -v y=${bin} '{print ">", x, "_", y, "\n", $NF}' > $ANALYSIS/ribosomal_proteins/${bin}_${annotation}.fa &
+done
+wait
+done
+
+# 2) combine the annonations from the bins into single file for each protein
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv)
+do cat $ANALYSIS/ribosomal_proteins/*_${annotation}.fa > $ANALYSIS/concatenated_proteins/${annotation}.fa
+done
+wait
+
+# 3) translate and align my bin sequences with R script 
+module load r/3.5.0
+
+# running gblocks because it was commented out of R script out of the file
+#for file in $(ls *.fa.aln);
+#do echo ${file}; Gblocks ${file} -t=p -b1 -b5=h;
+#done
+
+
+#### GTDB DID
+#The resulting MSA was trimmed by removal of columns represented by <50% of genomes and/or with an amino acid consensus <25%. In addition, genomes with amino acids in <50% of columns were removed before phylogenetic inference. 
+# mostly similar to gblocks
+######
+
+# 4) Combining the two alignments my own bins and the gtdb alignments for each of the 120 genes
+#for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+#do muscle -profile -in1 $GTDB_ALIGN/gtdb_${annotation}.faa -in2 $ANALYSIS/concatenated_proteins/trimal-aln/${annotation}.fa.trimal.aln -maxiters 1 -diags -sv -distance1 kbit20_3 > $ANALYSIS/combined_alignments/${annotation}_combined_aln.fa;
+#done;
+#wait
+
+#Alternative, since the above doesn't actually realign the files, concatenate alginments together and then align with muscle
+#### redoing trimal because entire sequences were removed for some proteins --- not so strick settings
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do trimal -in $ANALYSIS/concatenated_proteins/${annotation}.fa.aln -out $ANALYSIS/concatenated_proteins/trimal-aln-lite/${annotation}.fa.trimal.aln -gappyout; 
+done;
+wait
+
+#trimal output is multiline. make multi-line fasta a single line ? ----- not needed by muscle!
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do cat $GTDB_ALIGN/gtdb_${annotation}.faa $ANALYSIS/concatenated_proteins/trimal-aln-lite/${annotation}.fa.trimal.aln > $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa;
+done;
+wait
+		# muscle alignment fast parameters for aa
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+wait
+		# trimal to remove gaps and incomplete sequences
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do trimal -in $ANALYSIS/combined_files/${annotation}_combined.aln.fa -out $ANALYSIS/combined_files/aln-trimal/${annotation}_combined.aln.fa -gappyout -seqoverlap 50 -resoverlap 0.25; 
+done;
+wait
+
+
+# files taking such a long time i will split the annotation file 
+awk 'NR>=1 && NR<=15 { print $0 }' bac120-list.tsv > bac120-list_1.tsv
+awk 'NR>=16 && NR<=30 { print }' bac120-list.tsv > bac120-list_2.tsv
+awk 'NR>=31 && NR<=45 { print }' bac120-list.tsv > bac120-list_3.tsv
+awk 'NR>=46 && NR<=60 { print }' bac120-list.tsv > bac120-list_4.tsv
+awk 'NR>=61 && NR<=75 { print }' bac120-list.tsv > bac120-list_5.tsv
+awk 'NR>=76 && NR<=90 { print }' bac120-list.tsv > bac120-list_6.tsv
+awk 'NR>=91 && NR<=105 { print }' bac120-list.tsv > bac120-list_7.tsv
+awk 'NR>=106 && NR<=120 { print }' bac120-list.tsv > bac120-list_8.tsv
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
+done;
+
+# Filter the alignment files for duplicates and make tree, r script make take quite a long time
+
