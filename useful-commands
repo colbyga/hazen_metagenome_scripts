@@ -21,6 +21,10 @@ awk '$13 > 70 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminat
 
 
 
+awk -v OFS='\t' '{print $1, $2}' bac_msa_marker_info_r86.tsv
+sed 's/^\(TIGR_\|PFAM_\)//g'
+^\(SUT_INST_EXAMPLES\|PFAM_\)
+
 #print specific field
 awk '{print $1}' collections-refined-over-49.txt > bins-over-49.txt
 
@@ -50,7 +54,7 @@ sed 's$.1_$.1 $' genomes.taxonomy_4.txt > genomes.taxonomy.txt
 awk '$1 &&  $2 {print ;}' mapping-text.csv > execute.map
 awk '{print $2}' | sed 's/.json/-contigs.fa/g'
 
-sed 's/^//g' files.csv | while IFS=, read orig new; do mv "$orig" "$new"; done 
+sed c files.csv | while IFS=, read orig new; do mv "$orig" "$new"; done 
 
 
 
