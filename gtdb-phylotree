@@ -183,11 +183,11 @@ for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
@@ -203,7 +203,7 @@ for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
