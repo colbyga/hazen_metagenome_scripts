@@ -93,31 +93,46 @@ awk 'NR>=76 && NR<=90 { print }' bac120-list.tsv > bac120-list_6.tsv
 awk 'NR>=91 && NR<=105 { print }' bac120-list.tsv > bac120-list_7.tsv
 awk 'NR>=106 && NR<=120 { print }' bac120-list.tsv > bac120-list_8.tsv
 
+BASEDIR=/home/gcolb087/scratch
+OUTPUT=$BASEDIR/gtdb-data
+PROTEINS=$OUTPUT/bac120
+ANALYSIS=$OUTPUT/analysis
+BINS=$BASEDIR/output_anvio5_1_Sept6/SAMPLES-SUMMARY-concoct-checkm
+NCBI=$BASEDIR/ncbi_genomes
+TRANS=/home/gcolb087/bin
+GTDB_ALIGN=$PROTEINS/bac120_msa_genes_r86
+
+module load muscle/3.8.31
+module load mafft/7.310
+module load trimal/1.4
+
+cd $ANALYSIS/combined_files
+
 for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8_1.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
