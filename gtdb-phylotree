@@ -19,6 +19,9 @@ module load muscle/3.8.31
 module load mafft/7.310
 module load trimal/1.4
 
+cd $ANALYSIS/combined_aln_seq
+
+
 # 1) fetch the ribosomal proteins for the bins
 mkdir $ANALYSIS/ribosomal_proteins/
 cd  $ANALYSIS/ribosomal_proteins/
@@ -165,23 +168,23 @@ for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7_1.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
