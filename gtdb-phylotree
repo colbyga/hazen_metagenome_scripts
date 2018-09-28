@@ -19,9 +19,6 @@ module load muscle/3.8.31
 module load mafft/7.310
 module load trimal/1.4
 
-cd $ANALYSIS/combined_aln_seq
-
-
 # 1) fetch the ribosomal proteins for the bins
 mkdir $ANALYSIS/ribosomal_proteins/
 cd  $ANALYSIS/ribosomal_proteins/
@@ -93,56 +90,33 @@ awk 'NR>=76 && NR<=90 { print }' bac120-list.tsv > bac120-list_6.tsv
 awk 'NR>=91 && NR<=105 { print }' bac120-list.tsv > bac120-list_7.tsv
 awk 'NR>=106 && NR<=120 { print }' bac120-list.tsv > bac120-list_8.tsv
 
-BASEDIR=/home/gcolb087/scratch
-OUTPUT=$BASEDIR/gtdb-data
-PROTEINS=$OUTPUT/bac120
-ANALYSIS=$OUTPUT/analysis
-BINS=$BASEDIR/output_anvio5_1_Sept6/SAMPLES-SUMMARY-concoct-checkm
-NCBI=$BASEDIR/ncbi_genomes
-TRANS=/home/gcolb087/bin
-GTDB_ALIGN=$PROTEINS/bac120_msa_genes_r86
-
-module load muscle/3.8.31
-module load mafft/7.310
-module load trimal/1.4
-
-cd $ANALYSIS/combined_files
-
 for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
 do muscle -in $ANALYSIS/combined_files/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_files/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
-
-# Filter the alignment files for duplicates and make tree, r script make take quite a long time
-
-
-
-
-
-
 
 
 # what I've done above is aligned the bins together trimal to remove gaps then aligned to the gtdb ..... this is probably not the best way I should just direct add the translated sequences and then align .... this is what follows
@@ -183,45 +157,55 @@ for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3_2.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4_2.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7_1.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
-for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8_2.tsv);
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
 do muscle -in $ANALYSIS/combined_aln_seq/${annotation}_combined_unaligned.fa -out $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -maxiters 1 -diags -sv -distance1 kbit20_3; 
 done;
 
+mkdir $ANALYSIS/combined_aln_seq/aligned
+mv *${annotation}_combined.aln.fa
 
+###############
+#	5) 		Remove Archaeal Sequences from Alignment
+###############
 
-
-
-
-
-
-
-
-
-
-
-		# trimal to remove gaps and incomplete sequences
+# grepping things that aren't in list 
 for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
-do trimal -in $ANALYSIS/combined_aln_seq/${annotation}_combined.aln.fa -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_combined.aln.fa -gappyout -seqoverlap 50 -resoverlap 0.25; 
+do awk '{ if ((NR>1)&&($0~/^>/)) { printf("\n%s", $0); } else if (NR==1) { printf("%s", $0); } else { printf("\t%s", $0); } }' ${annotation}_combined.aln.fa | grep -vFf $ANALYSIS/combined_aln_seq/aligned/archaea.files - | tr "\t" "\n" > ${annotation}.filter.aln; echo "cleaned ${annotation}";
 done;
 wait
+
+# counting ">" in file before for file  in $(ls *.aln.fa); do grep -c ">" $file; done;
+# counting ">" in file after for file in $(ls *.filter.aln); do grep -c ">" $file; done;
+############
+# 	6)		Run Trimal to remove gaps and incomplete sequences
+############
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " $annotation
+done;
+wait
+
+
+############
+# 	7) 		Filter the alignment files for duplicates and make tree, r script make take quite a long time
+############
 
