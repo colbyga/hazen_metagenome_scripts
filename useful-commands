@@ -47,7 +47,7 @@ sed 's$.2_$.2 $' genomes.taxonomy_3.txt > genomes.taxonomy_4.txt
 sed 's$.1_$.1 $' genomes.taxonomy_4.txt > genomes.taxonomy.txt
  sed 's/\.[12]//g' genomes.taxonomy.txt > genomes.taxonomy2.txt 
 
-
+sed 's/>UBA/>GTDB_UBA/g' *trimal.aln.fa | sed 's/>GB/>GTDB_GB/g' |  sed 's/>RS/>GTDB_RS/g'
 ############
 # renaming files using a mapping file 
 ############
