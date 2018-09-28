@@ -244,6 +244,15 @@ do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $
 done;
 wait
 
+
+###
+# Sed replaces names of fasta files 
+###
+for aln in $(ls *filter_trimal_aln.fa);
+do sed 's/>UBA/>GTDB_UBA/g' ${aln} | sed 's/>GB/>GTDB_GB/g' |  sed 's/>RS/>GTDB_RS/g' > ${aln}_renamed;
+done
+
+
 ############
 # 	7) 		Filter the alignment files for duplicates and make tree, r script make take quite a long time
 ############
