@@ -248,7 +248,7 @@ wait
 ###
 # Sed replaces names of fasta files 
 ###
-for aln in $(ls *filter_trimal_aln.fa);
+for aln in *filter_trimal_aln.fa;
 do sed 's/>UBA/>GTDB_UBA/g' ${aln} | sed 's/>GB/>GTDB_GB/g' |  sed 's/>RS/>GTDB_RS/g' > ${aln}_renamed;
 done
 
