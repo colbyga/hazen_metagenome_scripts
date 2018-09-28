@@ -200,10 +200,49 @@ wait
 # 	6)		Run Trimal to remove gaps and incomplete sequences
 ############
 for annotation in $(awk '{print $1}' $PROTEINS/bac120-list.tsv);
-do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " $annotation
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
 done;
 wait
 
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_1.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_2.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_3.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_4.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_5.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_6.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_7.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
+
+for annotation in $(awk '{print $1}' $PROTEINS/bac120-list_8.tsv);
+do trimal -in $ANALYSIS/combined_aln_seq/aligned/${annotation}.filter.aln -out $ANALYSIS/combined_aln_seq/aln-trimal/${annotation}_filter_trimal.aln.fa -gappyout -resoverlap 0.5 -seqoverlap 25; echo "finsihed trimming: " ${annotation}
+done;
+wait
 
 ############
 # 	7) 		Filter the alignment files for duplicates and make tree, r script make take quite a long time
