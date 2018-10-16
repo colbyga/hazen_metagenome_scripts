@@ -257,3 +257,13 @@ done
 # 	7) 		Filter the alignment files for duplicates and make tree, r script make take quite a long time
 ############
 
+# formatting and checking for duplicates in the names
+awk -F '\t' '{print $1, $2}' bac_taxonomy_r86.tsv | sed 's/GB_GCA_//g' | sed 's/GB_GCF_//g' | sed 's/RS_GCF_//g' | awk 'seen[$1]++ == 1' 
+
+# formatting and checking for duplicates in the names
+awk -F '\t' '{print $1, $2}' bac_taxonomy_r86.tsv | sed 's/GB_GCA_//g' | sed 's/GB_GCF_//g' | sed 's/RS_GCF_//g' | sed 's/;/\'$'\t/g' | sed 's/ d__/\'$'\td__/g' > bac_taxonomy_clean.tsv
+
+# removing sequences that shouldn't be included any archaea, low quality bins 
+# create an above 50 file and above 70 file 
+faSomeRecords concat_aln.fa exclude-bins-list concat_aln_50.fa  -exclude
+faSomeRecords concat_aln.fa exclude_med_qual_bins.list concat_aln_70.fa -exclude
