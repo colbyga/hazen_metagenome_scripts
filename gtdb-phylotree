@@ -272,3 +272,9 @@ awk -F '\t' '{print $1, $2}' bac_taxonomy_r86.tsv | sed 's/GB_GCA_//g' | sed 's/
 # create an above 50 file and above 70 file 
 faSomeRecords concat_aln.fa exclude-bins-list concat_aln_50.fa  -exclude
 faSomeRecords concat_aln.fa exclude_med_qual_bins.list concat_aln_70.fa -exclude
+
+
+
+# creating color palette 
+paste file2 file1
+awk '{print $3}' /Users/grahamcolby/Downloads/gtdb-alignments/small_color_palette.txt | awk 1 ORS=' '
