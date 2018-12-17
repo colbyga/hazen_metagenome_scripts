@@ -9,8 +9,9 @@ awk '$4 > 90  {print ;}' collections-refined.txt | wc -l  # insane quality bins
 awk '$4 > 49 &&  $5 > 10 {print ;}' collections-refined.txt | wc -l  # Good bins but contaminated
 awk '$5 > 10 {print ;}' collections-refined.txt | wc -l  
 
+#compareM AAI
 awk '$7 > 70 {print ;}' aai_summary.tsv | wc -l  
-
+awk '$6 > 80 {print $1,$3,$6,$7,$8}' aai_summary.tsv
 
 awk '{print $13}' qa.out
 awk '$13 > 90  {print ;}' qa.out | wc -l  # insane quality bins
