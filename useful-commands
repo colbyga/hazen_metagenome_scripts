@@ -19,6 +19,8 @@ awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminat
 awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $1}' # oh look all the contaminated bin names that need work 
 awk '$13 > 49 &&  $14 > 10 {print ;}' qa.out | awk '{print $13 "\t" $14}' 
 awk '$13 > 49 &&  $14 < 10 {print ;}' qa.out > qa_goodbins.out
+awk '$13 > 49.9 &&  $14 < 10 {print ;}' qa.out > qa_goodbins.out
+
 awk '$13 > 90 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
 awk '$13 > 70 &&  $14 > 10 {print ;}' qa.out | wc -l  # Good bins but contaminated
 
